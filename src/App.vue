@@ -4,35 +4,11 @@
   </header>
 
   <main>
-    <!-- StatesTodosList.vue -->
-    <ul class="states-todos-list">
-      <li class="state-todo-item">
-        <button>All</button>
-      </li>
-      <li class="state-todo-item">
-        <button>Active</button>
-      </li>
-      <li class="state-todo-item">
-        <button>Completed</button>
-      </li>
-    </ul>
-
-    <!-- InputTodo.vue -->
-    <form class="input-todo">
-      <input type="text">
-      <button type="submit">Add</button>
-    </form>
-
-    <!-- TodoList.vue -->
-    <ul class="todos-list">
-      <li class="todo-item">
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1"> I have a bike</label><br>
-        <!-- <button class="delete-btn">❌</button> -->
-      </li>
-    </ul>
+    <StatesTodosList />
+    <FormInputTodo />
+    <TodoList />
     
-    <!-- <button class="delete-all-btn">Delete all</button> -->
+    
     Count : {{ countVuex }}
     <br>
     <button @click="useMutation">useMutation</button>
@@ -43,7 +19,16 @@
 import { computed, reactive, toRefs } from 'vue'
 import store from './store'
 
+import StatesTodosList from './components/StatesTodosList.vue'
+import FormInputTodo from './components/FormInputTodo.vue'
+import TodoList from './components/TodoList.vue'
+
 export default {
+  components: {
+    StatesTodosList,
+    FormInputTodo,
+    TodoList
+  },
   setup () {
 
     const useMutation = () => {
