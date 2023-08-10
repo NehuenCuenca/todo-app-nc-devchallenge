@@ -9,8 +9,10 @@
       <li class="state-todo-item">
         <button>Completed</button>
       </li> -->
-    <li class="state-todo-item" v-for="(getter, getterIndex) in getters" :key="getterIndex">
-      <button @click="changeGetter(getterIndex)">{{ getterIndex }}</button>
+    <li class="state-todo-item" v-for="(getter, getterName, getterIndex) in getters" :key="getterName"
+        :class="getterName === currentGetter ? 'active': ''"  
+    >
+      <button @click="changeGetter(getterName)">{{ getterName }}</button>
     </li>
   </ul>
 </template>
