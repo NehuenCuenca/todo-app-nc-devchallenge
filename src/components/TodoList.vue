@@ -1,28 +1,36 @@
 <template>
     <div class="todo-list-root">
-        <ul class="todos-list">
+        <ul class="todos-list" v-for="({ content, dateTime, isCompleted }, todoIndex) in todos" :key="todoIndex">
             <li class="todo-item">
-                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-                <label for="vehicle1"> I have a bike</label>
+                <input type="checkbox" :id="dateTime" name="dateTime" :checked="isCompleted">
+                <label :for="dateTime">{{ content }}</label>
                 <!-- <button class="delete-btn">❌</button> -->
             </li>
         </ul>
-        
+
         <!-- <button class="delete-all-btn">Delete all</button> -->
     </div>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, ref, computed } from 'vue'
+import store from '../store'
 
 export default {
     name: "TodoList",
-    setup () {}
+    setup() {
+        const currentStateTodo = computed(() => store.state.currentStateTodosGetter )
+        const todos = computed(() => store.getters.getTodosByCurrentState)
+
+        return {
+            currentStateTodo,
+            todos
+        }
+    }
 }
 </script>
 
 <style scoped>
-
 .todo-list-root {
     width: 70%;
 }
@@ -32,6 +40,7 @@ export default {
     display: flex;
     flex-direction: column;
 }
+
 .todos-list li.todo-item {
     width: 100%;
     display: flex;
@@ -46,14 +55,15 @@ li.todo-item input[type="checkbox"] {
     accent-color: var(--blueContrast);
     border-radius: 4px;
     cursor: pointer;
-    
+
 }
+
 li.todo-item label {
     font: 500 1.25rem 'Montserrat', sans-serif;
     cursor: pointer;
 }
 
-.todo-item input[type="checkbox"]:checked + label {
+.todo-item input[type="checkbox"]:checked+label {
     text-decoration: line-through;
     color: var(--titleBlackStrong);
 }

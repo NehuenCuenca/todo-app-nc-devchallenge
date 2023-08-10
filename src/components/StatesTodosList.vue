@@ -1,6 +1,6 @@
 <template>
-    <ul class="states-todos-list">
-      <li class="state-todo-item active">
+  <ul class="states-todos-list">
+    <!-- <li class="state-todo-item active">
         <button>All</button>
       </li>
       <li class="state-todo-item">
@@ -8,16 +8,39 @@
       </li>
       <li class="state-todo-item">
         <button>Completed</button>
-      </li>
-    </ul>
+      </li> -->
+    <li class="state-todo-item" v-for="(getter, getterIndex) in getters" :key="getterIndex">
+      <button @click="changeGetter(getterIndex)">{{ getterIndex }}</button>
+    </li>
+  </ul>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
+import { mapGetters } from 'vuex'
+import store from '../store';
 
 export default {
-    name: "StatesTodosList",
-    setup () {}
+  name: "StatesTodosList",
+  setup() {
+    const currentGetter = computed(() => store.state.currentStateTodosGetter)
+
+    const getters = {
+      ...mapGetters({
+        All: 'allTodos',
+        Active: 'activeTodos',
+        Completed: 'completedTodos',
+      })
+    }
+
+    const changeGetter = (newGetter) => store.commit('changeGetter', newGetter)
+
+    return {
+      currentGetter,
+      getters,
+      changeGetter
+    }
+  }
 }
 </script>
 
@@ -29,14 +52,17 @@ export default {
   border-bottom: 2px solid var(--greyBorder);
   border-radius: 1%;
 }
+
 .states-todos-list .state-todo-item {
   min-width: 15%;
   text-align: center;
   padding: 1rem 0;
 }
-.states-todos-list .state-todo-item.active { 
+
+.states-todos-list .state-todo-item.active {
   border-bottom: 3.5px solid var(--blueContrast);
 }
+
 .states-todos-list .state-todo-item button {
   background-color: white;
   border: none;
