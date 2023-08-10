@@ -15,11 +15,16 @@ const store = createStore({
       ]
     }
   },
+
   mutations: {
+    addNewTodo(state, newTodo) {
+      state.todos.push(newTodo)
+    },
+
     increment (state) {
       state.count++
     }
-  }
+  },
 })
 
 export default store;

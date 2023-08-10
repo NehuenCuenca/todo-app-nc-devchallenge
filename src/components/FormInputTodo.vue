@@ -1,16 +1,35 @@
 <template>
-    <form class="input-todo">
-      <input type="text" placeholder="add details">
+    <form class="input-todo" @submit.prevent="addNewTodo">
+      <input type="text" placeholder="add details" v-model="contentTodo">
       <button type="submit">Add</button>
     </form>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, ref, toRefs } from 'vue'
+import store from '../store'
 
 export default {
     name: "FormInputTodo",
-    setup () {}
+    setup () {
+      const contentTodo = ref("")
+
+      const addNewTodo = () => {
+        const newTodo = {
+          dateTime: Date.now(),
+          content: contentTodo.value,
+          isCompleted: false,
+        }
+
+        store.commit('addNewTodo', newTodo)
+        contentTodo.value = ""
+      }
+
+      return {
+        addNewTodo,
+        contentTodo
+      }
+    }
 }
 </script>
 
