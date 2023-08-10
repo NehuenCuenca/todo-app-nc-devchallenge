@@ -10,7 +10,6 @@
     
     
     Count : {{ countVuex }}
-    <br>
     <button @click="useMutation">useMutation</button>
   </main>
 </template>
@@ -47,5 +46,12 @@ export default {
 </script>
 
 <style scoped>
-
+main{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4vh 0;
+}
 </style>
