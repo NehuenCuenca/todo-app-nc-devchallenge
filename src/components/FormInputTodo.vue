@@ -1,12 +1,12 @@
 <template>
-    <form class="input-todo" @submit.prevent="addNewTodo">
+    <form class="input-todo" @submit.prevent="addNewTodo" v-if="currentStateTodo != 'Completed'">
       <input type="text" placeholder="add details" v-model="contentTodo">
       <button type="submit">Add</button>
     </form>
 </template>
 
 <script>
-import { reactive, ref, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
 import store from '../store'
 
 export default {
@@ -25,9 +25,14 @@ export default {
         contentTodo.value = ""
       }
 
+      const currentStateTodo = computed(
+        () => store.state.currentStateTodosGetter
+      );
+
       return {
         addNewTodo,
-        contentTodo
+        contentTodo,
+        currentStateTodo
       }
     }
 }

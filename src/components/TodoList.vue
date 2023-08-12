@@ -1,70 +1,61 @@
 <template>
-    <div class="todo-list-root">
-        <ul class="todos-list" v-for="({ content, dateTime, isCompleted }, todoIndex) in todos" :key="todoIndex">
-            <li class="todo-item">
-                <input type="checkbox" :id="dateTime" name="dateTime" :checked="isCompleted">
-                <label :for="dateTime">{{ content }}</label>
-                <!-- <button class="delete-btn">❌</button> -->
-            </li>
-        </ul>
+  <div class="todo-list-root">
+    <ul class="todos-list">
+      <TodoItemList v-for="(todo, todoIndex) in todos" :key="todoIndex" :todoInfo="todo" />
+    </ul>
 
-        <!-- <button class="delete-all-btn">Delete all</button> -->
-    </div>
+    <!-- <button class="delete-all-btn" v-if="currentStateTodo === 'Completed'">
+      ❌ Delete all
+    </button> -->
+  </div>
 </template>
 
 <script>
-import { reactive, toRefs, ref, computed } from 'vue'
-import store from '../store'
+import { computed, } from "vue";
+import store from "../store";
+import TodoItemList from '../components/TodoItemList.vue'
 
 export default {
-    name: "TodoList",
-    setup() {
-        const currentStateTodo = computed(() => store.state.currentStateTodosGetter )
-        const todos = computed(() => store.getters.getTodosByCurrentState)
+  name: "TodoList",
+  components: { TodoItemList },
+  setup() {
+    const currentStateTodo = computed(
+      () => store.state.currentStateTodosGetter
+    );
 
-        return {
-            currentStateTodo,
-            todos
-        }
-    }
-}
+    const todos = computed(() => store.getters.getTodosByCurrentState);
+
+    return {
+      currentStateTodo,
+      todos,
+    };
+  },
+};
 </script>
 
 <style scoped>
 .todo-list-root {
-    width: 70%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh 0;
 }
 
 .todos-list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh 0;
 }
 
-.todos-list li.todo-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0 .5vw;
-}
-
-li.todo-item input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    accent-color: var(--blueContrast);
-    border-radius: 4px;
-    cursor: pointer;
-
-}
-
-li.todo-item label {
-    font: 500 1.25rem 'Montserrat', sans-serif;
-    cursor: pointer;
-}
-
-.todo-item input[type="checkbox"]:checked+label {
-    text-decoration: line-through;
-    color: var(--titleBlackStrong);
+.delete-all-btn {
+  width: 124px;
+  height: 40px;
+  background-color: #eb5757;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  font: 600 12px "Montserrat", sans-serif;
+  align-self: flex-end;
 }
 </style>

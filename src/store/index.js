@@ -1,22 +1,36 @@
 
+import { nextTick } from 'vue';
 import { createStore } from 'vuex'
 
 // Create a new store instance.
 const store = createStore({
   state () {
     return {
-      count: 0,
-
       todos: [
         {
           content: "I AM A HARCODED-TODO",
           isCompleted: false,
+          dateTime: 1234462131,
+        },
+        {
+          content: "I AM A HARCODED-TODO and completed1",
+          isCompleted: false,
+          dateTime: 1234462132,
+        },
+        {
+          content: "I AM A HARCODED-TODO and completed2",
+          isCompleted: true,
           dateTime: 1234462133,
         },
         {
-          content: "I AM A HARCODED-TODO and completed",
+          content: "I AM A HARCODED-TODO and completed3",
           isCompleted: true,
           dateTime: 1234462134,
+        },
+        {
+          content: "I AM A HARCODED-TODO and completed4",
+          isCompleted: true,
+          dateTime: 1234462135,
         }
       ],
       
@@ -26,12 +40,15 @@ const store = createStore({
 
 
   mutations: {
-    addNewTodo(state, newTodo) {
-      state.todos.push(newTodo)
+    addNewTodo(state, newTodo) { state.todos.unshift(newTodo) },
+
+    updateTodo(state, { id }) {
+      const todoToEdit = state.todos.find(({dateTime}) => dateTime === id)
+      todoToEdit.isCompleted = !todoToEdit.isCompleted
     },
 
-    increment (state) {
-      state.count++
+    deleteTodo(state, { id }) {
+      state.todos = [ ...state.todos.filter(t => t.dateTime != id)]
     },
 
     changeGetter (state, newGetter) {
@@ -42,21 +59,17 @@ const store = createStore({
   
   getters: {
     getTodosByCurrentState() {
-      let todos = [];
-
       switch (store.state.currentStateTodosGetter) {
         case "All":
-          todos = store.getters.allTodos
+          return store.getters.allTodos
         break;
         case "Active":
-          todos = store.getters.activeTodos
+          return store.getters.activeTodos
         break;
         case "Completed":
-          todos = store.getters.completedTodos
+          return store.getters.completedTodos
         break;
       }
-      
-      return todos;
     },
     allTodos (state) {
       return state.todos
