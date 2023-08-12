@@ -26,10 +26,12 @@ export default {
 
         const toggleIsCompleteTodo = (idDateTime) => {
             store.commit("updateTodo", { id: idDateTime });
+            store.commit('saveTodosOnLS')
         };
 
         const deleteTodo = (idDateTime) => {
             store.commit("deleteTodo", { id: idDateTime });
+            store.commit('saveTodosOnLS')
         };
 
         return {

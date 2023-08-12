@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { computed, } from "vue";
+import { computed, watch, } from "vue";
 import store from "../store";
 import TodoItemList from '../components/TodoItemList.vue'
 
@@ -28,7 +28,10 @@ export default {
     const todos = computed(() => store.getters.getTodosByCurrentState);
     const haveTodosAvailable = computed(() => todos.value.length > 0 );
 
-    const deleteTodos = () => { store.commit('deleteAllTodos') }
+    const deleteTodos = () => { 
+      store.commit('deleteAllTodos')
+      store.commit('saveTodosOnLS')
+    }
 
     return {
       currentStateTodo,

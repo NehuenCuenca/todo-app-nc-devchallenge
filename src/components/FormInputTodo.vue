@@ -22,6 +22,7 @@ export default {
         }
 
         store.commit('addNewTodo', newTodo)
+        store.commit('saveTodosOnLS')
         contentTodo.value = ""
       }
 

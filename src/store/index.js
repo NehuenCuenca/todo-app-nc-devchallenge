@@ -1,37 +1,16 @@
 
-import { nextTick } from 'vue';
 import { createStore } from 'vuex'
 
 // Create a new store instance.
 const store = createStore({
   state () {
     return {
-      todos: [
-        {
+      todos: JSON.parse(localStorage.getItem('todos')) || [
+        /* {
           content: "I AM A HARCODED-TODO",
           isCompleted: false,
           dateTime: 1234462131,
-        },
-        {
-          content: "I AM A HARCODED-TODO and completed1",
-          isCompleted: false,
-          dateTime: 1234462132,
-        },
-        {
-          content: "I AM A HARCODED-TODO and completed2",
-          isCompleted: true,
-          dateTime: 1234462133,
-        },
-        {
-          content: "I AM A HARCODED-TODO and completed3",
-          isCompleted: true,
-          dateTime: 1234462134,
-        },
-        {
-          content: "I AM A HARCODED-TODO and completed4",
-          isCompleted: true,
-          dateTime: 1234462135,
-        }
+        }, */
       ],
       
       currentStateTodosGetter: "All"
@@ -51,14 +30,15 @@ const store = createStore({
       state.todos = [ ...state.todos.filter(t => t.dateTime != id)]
     },
 
-    
-    deleteAllTodos(state) {
-      state.todos = []
-      // TODO: Borrar del local storage
-    },
+
+    deleteAllTodos(state) { state.todos = [] },
 
     changeGetter (state, newGetter) {
       state.currentStateTodosGetter = newGetter
+    },
+
+    saveTodosOnLS (state) {
+        localStorage.setItem( 'todos', JSON.stringify([ ...state.todos ]) )
     }
   },
 
