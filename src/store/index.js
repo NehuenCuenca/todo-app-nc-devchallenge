@@ -51,6 +51,12 @@ const store = createStore({
       state.todos = [ ...state.todos.filter(t => t.dateTime != id)]
     },
 
+    
+    deleteAllTodos(state) {
+      state.todos = []
+      // TODO: Borrar del local storage
+    },
+
     changeGetter (state, newGetter) {
       state.currentStateTodosGetter = newGetter
     }

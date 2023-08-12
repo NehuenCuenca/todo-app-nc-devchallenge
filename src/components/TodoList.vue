@@ -2,11 +2,13 @@
   <div class="todo-list-root">
     <ul class="todos-list">
       <TodoItemList v-for="(todo, todoIndex) in todos" :key="todoIndex" :todoInfo="todo" />
+      <li class="no-todos" v-if="!haveTodosAvailable && currentStateTodo != 'Completed'">You don't have todo's, until you write one 😏.</li>
+      <li class="no-todos" v-if="!haveTodosAvailable && currentStateTodo === 'Completed'">You don't have completed todo's, until you completed one 😁.</li>
     </ul>
 
-    <!-- <button class="delete-all-btn" v-if="currentStateTodo === 'Completed'">
+    <button class="delete-all-btn" v-if="currentStateTodo === 'Completed' && haveTodosAvailable" @click="deleteTodos">
       ❌ Delete all
-    </button> -->
+    </button>
   </div>
 </template>
 
@@ -24,10 +26,15 @@ export default {
     );
 
     const todos = computed(() => store.getters.getTodosByCurrentState);
+    const haveTodosAvailable = computed(() => todos.value.length > 0 );
+
+    const deleteTodos = () => { store.commit('deleteAllTodos') }
 
     return {
       currentStateTodo,
       todos,
+      haveTodosAvailable,
+      deleteTodos
     };
   },
 };
@@ -57,5 +64,11 @@ export default {
   border: none;
   font: 600 12px "Montserrat", sans-serif;
   align-self: flex-end;
+}
+
+li.no-todos {
+  font-size: 1.1rem;
+  color: rgb(96, 96, 96);
+  font-style: italic;
 }
 </style>
